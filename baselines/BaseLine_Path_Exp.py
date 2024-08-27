@@ -79,16 +79,9 @@ class PathExplainer:
         llm_resp_path = oai_get_response(llm_fix_prompt_combo, temp=1e-19, top_p=1e-9, seed=1234)
         end_time = time.time()
         
-        print(f"Time taken for generating oai_get_response from llm: {end_time - start_time:.2f} seconds")
+        print(f"Time taken for generating response from llm(gpt4o): {end_time - start_time:.2f} seconds")
         
         return llm_resp_path
-
-    def process_dataframe_row(self, row):
-        source = "amiodarone"
-        target = "mefloquine"
-        edges_pmids = row['context_pmids']
-        best_selection, cosine_similarities = self.find_best_selection(source, target, edges_pmids)
-        return pd.Series({'best_selection_sbert': best_selection, 'cosine_similarity': cosine_similarities})
 
     def explain_path(self, source, target, edges_pmids):
         best_selection, cosine_similarities = self.find_best_selection(source, target, edges_pmids)
